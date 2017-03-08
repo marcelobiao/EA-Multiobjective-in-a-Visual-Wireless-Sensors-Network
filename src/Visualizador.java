@@ -2,7 +2,6 @@
 import control.DrawMaps;
 import control.FuncoesDiversas;
 import control.ImportExportFile;
-import java.awt.Graphics;
 import java.awt.Point;
 import java.io.File;
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import models.Sensors;
 import models.Targets;
 
@@ -38,6 +38,9 @@ public class Visualizador extends javax.swing.JFrame {
     ArrayList<Targets> targets = new ArrayList<>();
     private int countSensors = 0;
     private int countTargets = 0;
+    private int angulo = 360;
+    private int distA = 50;
+    private int distB = 450;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,15 +55,20 @@ public class Visualizador extends javax.swing.JFrame {
         panelView = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         panelConfig = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        panelTargets = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txNumTargets = new javax.swing.JTextField();
         btGenerateTargets = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        panelSensors = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txNumSensors = new javax.swing.JTextField();
         btGenetareSensors = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txNumAngulo = new javax.swing.JTextField();
+        txNumeroDistancia = new javax.swing.JTextField();
+        chkRandomAngle2 = new javax.swing.JCheckBox();
+        panelInsertView = new javax.swing.JPanel();
         chkEnableInsertion = new javax.swing.JCheckBox();
         rdSensors = new javax.swing.JRadioButton();
         rdTargets = new javax.swing.JRadioButton();
@@ -107,7 +115,7 @@ public class Visualizador extends javax.swing.JFrame {
 
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Alvos"));
+        panelTargets.setBorder(javax.swing.BorderFactory.createTitledBorder("Alvos"));
 
         jLabel1.setText("Numero de Alvos");
 
@@ -120,21 +128,21 @@ public class Visualizador extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelTargetsLayout = new javax.swing.GroupLayout(panelTargets);
+        panelTargets.setLayout(panelTargetsLayout);
+        panelTargetsLayout.setHorizontalGroup(
+            panelTargetsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTargetsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelTargetsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btGenerateTargets)
                     .addComponent(jLabel1)
                     .addComponent(txNumTargets, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        panelTargetsLayout.setVerticalGroup(
+            panelTargetsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTargetsLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -144,39 +152,78 @@ public class Visualizador extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Sensores"));
+        panelSensors.setBorder(javax.swing.BorderFactory.createTitledBorder("Sensores"));
 
         jLabel2.setText("Numero de Sensores");
 
         txNumSensors.setText("10");
 
         btGenetareSensors.setText("Gerar Sensores");
+        btGenetareSensors.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGenetareSensorsActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jLabel5.setText("Distância");
+
+        jLabel6.setText("Ângulo");
+
+        txNumAngulo.setText("45");
+
+        txNumeroDistancia.setText("80");
+
+        chkRandomAngle2.setText("Ângulos Aleatórios");
+
+        javax.swing.GroupLayout panelSensorsLayout = new javax.swing.GroupLayout(panelSensors);
+        panelSensors.setLayout(panelSensorsLayout);
+        panelSensorsLayout.setHorizontalGroup(
+            panelSensorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSensorsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(btGenetareSensors)
-                    .addComponent(txNumSensors, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelSensorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelSensorsLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addGap(51, 51, 51))
+                    .addGroup(panelSensorsLayout.createSequentialGroup()
+                        .addGroup(panelSensorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(btGenetareSensors)
+                            .addGroup(panelSensorsLayout.createSequentialGroup()
+                                .addGroup(panelSensorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txNumAngulo)
+                                    .addComponent(txNumSensors, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txNumeroDistancia, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelSensorsLayout.createSequentialGroup()
+                        .addComponent(chkRandomAngle2)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+        panelSensorsLayout.setVerticalGroup(
+            panelSensorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSensorsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txNumSensors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btGenetareSensors)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelSensorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelSensorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txNumeroDistancia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txNumAngulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkRandomAngle2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btGenetareSensors))
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        panelInsertView.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         chkEnableInsertion.setText("Habilitar Inserção por Click");
 
@@ -196,44 +243,44 @@ public class Visualizador extends javax.swing.JFrame {
 
         chkRandomAngle.setText("Ângulos aleatórios");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelInsertViewLayout = new javax.swing.GroupLayout(panelInsertView);
+        panelInsertView.setLayout(panelInsertViewLayout);
+        panelInsertViewLayout.setHorizontalGroup(
+            panelInsertViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInsertViewLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelInsertViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(chkEnableInsertion)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelInsertViewLayout.createSequentialGroup()
+                        .addGroup(panelInsertViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rdSensors)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelInsertViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rdTargets)
                             .addComponent(jLabel4)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(panelInsertViewLayout.createSequentialGroup()
                         .addComponent(txAngulo, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txDistancia, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(chkRandomAngle))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        panelInsertViewLayout.setVerticalGroup(
+            panelInsertViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInsertViewLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(chkEnableInsertion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelInsertViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdSensors)
                     .addComponent(rdTargets))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelInsertViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelInsertViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txAngulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txDistancia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -248,21 +295,21 @@ public class Visualizador extends javax.swing.JFrame {
             .addGroup(panelConfigLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelTargets, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelSensors, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelInsertView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelConfigLayout.setVerticalGroup(
             panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigLayout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelTargets, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addComponent(panelSensors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelInsertView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Configuração", panelConfig);
@@ -275,7 +322,7 @@ public class Visualizador extends javax.swing.JFrame {
         );
         panelVarLayout.setVerticalGroup(
             panelVarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 497, Short.MAX_VALUE)
+            .addGap(0, 498, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Variaveis", panelVar);
@@ -288,7 +335,7 @@ public class Visualizador extends javax.swing.JFrame {
         );
         panelViewsLayout.setVerticalGroup(
             panelViewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 497, Short.MAX_VALUE)
+            .addGap(0, 498, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Visualizar", panelViews);
@@ -343,8 +390,8 @@ public class Visualizador extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelView, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane1))
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelView, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -358,17 +405,20 @@ public class Visualizador extends javax.swing.JFrame {
         //targets = new ArrayList<>();
         file = new JFileChooser();
         file.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        file.showOpenDialog(null);
+        file.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
+        file.setSelectedFile(new File("caso_teste.txt"));
+        file.showOpenDialog(panelView);
 
         File f = file.getSelectedFile();
 
         if (f != null) {
-            DrawMaps dm = new DrawMaps();
+            mnClearAllActionPerformed(evt);
+            DrawMaps dm = new DrawMaps(panelView);
             ImportExportFile ie = new ImportExportFile(f);
             ie.openFile(sensors, targets);
-            dm.paintTargets(panelView, targets);
+            dm.paintTargets(targets);
             //dm.paintSensors(panelView, sensors);
-            dm.paintSensorsWitchAngles(panelView, sensors);
+            dm.paintSensors(sensors);
         } else {
             JOptionPane.showMessageDialog(panelView, "Arquivo inválido e/ou vazio...", "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -377,20 +427,18 @@ public class Visualizador extends javax.swing.JFrame {
 
     private void btGenerateTargetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGenerateTargetsActionPerformed
         // TODO add your handling code here:
-
-        FuncoesDiversas fd = new FuncoesDiversas(50, 450);
-
-        for (int i = 0; i < Integer.parseInt(txNumTargets.getText().trim()); i++) {
-
-            int nx = fd.gerarNumeroAleatorio();
-            int ny = fd.gerarNumeroAleatorio();
-            Targets t = new Targets(i, new Point(nx, ny));
-            targets.add(t);
-
+        FuncoesDiversas fd = new FuncoesDiversas(distA, distB);
+        DrawMaps dm = new DrawMaps(panelView);
+        if (targets.isEmpty()) {
+            fd.generateRandomTargets(targets, Integer.parseInt(txNumTargets.getText().trim()));
+            dm.paintTargets(targets);
+        } else {
+            targets.clear();
+            fd.generateRandomTargets(targets, Integer.parseInt(txNumTargets.getText().trim()));
+            dm.paintTargets(targets);
+            //btGenetareSensorsActionPerformed(evt);
         }
 
-        DrawMaps dm = new DrawMaps();
-        dm.paintTargets(panelView, targets);
 
     }//GEN-LAST:event_btGenerateTargetsActionPerformed
 
@@ -398,7 +446,9 @@ public class Visualizador extends javax.swing.JFrame {
         // TODO add your handling code here:
         file = new JFileChooser();
         file.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        file.showSaveDialog(null);
+        file.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", "TEXT FILES", "txt"));
+        file.setSelectedFile(new File("caso_teste.txt"));
+        file.showSaveDialog(panelView);
 
         File f = file.getSelectedFile();
 
@@ -409,9 +459,11 @@ public class Visualizador extends javax.swing.JFrame {
                 ie.saveFile(sensors, targets);
             } else {
                 if (sensors.isEmpty()) {
-                    JOptionPane.showMessageDialog(panelView, "Lista de sensores está vazia...", "Erro", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(panelView, "Lista de sensores está vazia...", "Erro",
+                            JOptionPane.WARNING_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(panelView, "Lista de alvos está vazia...", "Erro", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(panelView, "Lista de alvos está vazia...", "Erro",
+                            JOptionPane.WARNING_MESSAGE);
                 }
             }
         }
@@ -429,24 +481,23 @@ public class Visualizador extends javax.swing.JFrame {
     private void panelViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelViewMouseClicked
         // TODO add your handling code here:
 
-        DrawMaps dm = new DrawMaps();
-        FuncoesDiversas fd = new FuncoesDiversas(0, 180);
+        DrawMaps dm = new DrawMaps(panelView);
+        FuncoesDiversas fd = new FuncoesDiversas(-angulo, angulo);
 
         if (chkEnableInsertion.isSelected()) {
             if (rdSensors.isSelected()) {
-                Sensors s = new Sensors(countSensors, new Point(evt.getX(), evt.getY()), fd.randomGenerateWitchCheckbox(chkRandomAngle, Integer.parseInt(txAngulo.getText().trim())), Integer.parseInt(txDistancia.getText().trim()));
+                Sensors s = new Sensors(countSensors, new Point(evt.getX(), evt.getY()),
+                        fd.randomGenerateWitchCheckbox(chkRandomAngle, Integer.parseInt(txAngulo.getText().trim())),
+                        Integer.parseInt(txDistancia.getText().trim()));
                 sensors.add(s);
                 countSensors++;
-                //dm.paintSensors(panelView, sensors);
-                //dm.paintSensorsWitchAngles(panelView, sensors);
-                dm.paintSingleSensor(panelView, s);
+                dm.paintSingleSensor(s);
             }
             if (rdTargets.isSelected()) {
                 Targets t = new Targets(countTargets, new Point(evt.getX(), evt.getY()));
                 targets.add(t);
                 countTargets++;
-                //dm.paintTargets(panelView, targets);
-                dm.paintSingleTargets(panelView, t);
+                dm.paintSingleTargets(t);
             }
         } else {
 
@@ -462,6 +513,36 @@ public class Visualizador extends javax.swing.JFrame {
             sensors.clear();
         }
     }//GEN-LAST:event_panelViewKeyPressed
+
+    private void btGenetareSensorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGenetareSensorsActionPerformed
+        // TODO add your handling code here:
+        DrawMaps dm = new DrawMaps(panelView);
+        ArrayList<Integer> vars = new ArrayList<>();
+        vars.add(Integer.parseInt(txNumSensors.getText().trim()));
+        vars.add(angulo);
+        vars.add(Integer.parseInt(txNumeroDistancia.getText().trim()));
+
+        if (sensors.isEmpty()) {
+            FuncoesDiversas fd = new FuncoesDiversas(distA - 30, distB - 30);
+            fd.generateRandomSensors(sensors, vars, chkRandomAngle2);
+            dm.paintSensors(sensors);
+        } else if (targets.isEmpty()) {
+            sensors.clear();
+            FuncoesDiversas fd = new FuncoesDiversas(distA, distB);
+            fd.generateRandomSensors(sensors, vars, chkRandomAngle2);
+            btGenerateTargetsActionPerformed(evt);
+            //dm.paintTargets(targets);
+            dm.paintSensors(sensors);
+        } else {
+            sensors.clear();
+            FuncoesDiversas fd = new FuncoesDiversas(distA, distB);
+            fd.generateRandomSensors(sensors, vars, chkRandomAngle2);
+            dm.paintTargets(targets);
+            dm.paintSensors(sensors);
+        }
+
+
+    }//GEN-LAST:event_btGenetareSensorsActionPerformed
 
     private void setLookAndFeel(String theme) {
         try {
@@ -514,21 +595,24 @@ public class Visualizador extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox chkEnableInsertion;
     private javax.swing.JCheckBox chkRandomAngle;
+    private javax.swing.JCheckBox chkRandomAngle2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenuItem mnClearAll;
     private javax.swing.JMenuItem mnOpenFile;
     private javax.swing.JMenuItem mnSaveFile;
     private javax.swing.JPanel panelConfig;
+    private javax.swing.JPanel panelInsertView;
+    private javax.swing.JPanel panelSensors;
+    private javax.swing.JPanel panelTargets;
     private javax.swing.JPanel panelVar;
     private javax.swing.JPanel panelView;
     private javax.swing.JPanel panelViews;
@@ -536,7 +620,9 @@ public class Visualizador extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdTargets;
     private javax.swing.JTextField txAngulo;
     private javax.swing.JTextField txDistancia;
+    private javax.swing.JTextField txNumAngulo;
     private javax.swing.JTextField txNumSensors;
     private javax.swing.JTextField txNumTargets;
+    private javax.swing.JTextField txNumeroDistancia;
     // End of variables declaration//GEN-END:variables
 }

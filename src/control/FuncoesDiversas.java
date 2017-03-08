@@ -5,8 +5,13 @@
  */
 package control;
 
+import java.awt.Point;
+import java.awt.image.SampleModel;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JCheckBox;
+import models.Sensors;
+import models.Targets;
 
 /**
  *
@@ -37,4 +42,31 @@ public class FuncoesDiversas {
         }
     }
 
+    public ArrayList generateRandomSensors(ArrayList<Sensors> sensor, ArrayList<Integer> vars, JCheckBox chk) {
+        int numSensors = vars.get(0);
+        int angulo = vars.get(1);
+        int distancia = vars.get(2);
+
+        for (int i = 0; i < numSensors; i++) {
+            //FuncoesDiversas fdPosition = new FuncoesDiversas(distA, distB);
+            FuncoesDiversas fdAngles = new FuncoesDiversas(-angulo, angulo);
+            Sensors s = new Sensors(i, new Point(gerarNumeroAleatorio(), gerarNumeroAleatorio()),
+                    fdAngles.randomGenerateWitchCheckbox(chk, angulo), distancia);
+            sensor.add(s);
+        }
+
+        return sensor;
+    }
+
+    public ArrayList generateRandomTargets(ArrayList<Targets> target, int numTarget) {
+        for (int i = 0; i < numTarget; i++) {
+
+            int nx = gerarNumeroAleatorio();
+            int ny = gerarNumeroAleatorio();
+            Targets t = new Targets(i, new Point(nx, ny));
+            target.add(t);
+
+        }
+        return target;
+    }
 }

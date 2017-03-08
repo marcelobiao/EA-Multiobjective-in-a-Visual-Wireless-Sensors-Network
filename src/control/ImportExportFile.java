@@ -46,7 +46,6 @@ public class ImportExportFile {
                 String[] lines = line.split(" ");
                 if ("SENSORES".equals(line)) {
                     line.split(" ");
-                    //line = bfr.readLine();
                     while (!"ALVOS".equals(line = bfr.readLine())) {
                         lines = line.split(";");
                         int x = Integer.parseInt(lines[0]);
@@ -56,11 +55,9 @@ public class ImportExportFile {
                         Sensors s = new Sensors(countSensors, new Point(x, y), angulo, alcance);
                         sensor.add(s);
                         countSensors++;
-                        //line = bfr.readLine();
                     }
                 }
                 if ("ALVOS".equals(line)) {
-                    //line = bfr.readLine();
                     while (!"END".equals(line = bfr.readLine())) {
                         lines = line.split(";");
                         int x = Integer.parseInt(lines[0]);
@@ -68,13 +65,11 @@ public class ImportExportFile {
                         Targets t = new Targets(countTargets, new Point(x, y));
                         target.add(t);
                         countTargets++;
-                        //line = bfr.readLine();
                     }
                 }
-
             }
-
-            JOptionPane.showMessageDialog(null, "Dados importados com êxito!", "Informação.", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Dados importados com êxito!", "Informação.",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception e) {
             System.out.println("Erro na importação: " + e.getMessage());
@@ -91,7 +86,8 @@ public class ImportExportFile {
             fw = new FileWriter(file);
 
             if (fw == null) {
-                JOptionPane.showMessageDialog(null, "Nome de Arquivo Inválido", "Erro.", javax.swing.JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Nome de Arquivo Inválido", "Erro.",
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
             } else {
                 PrintWriter pw = new PrintWriter(fw);
                 pw.println("SENSORES");
@@ -106,7 +102,8 @@ public class ImportExportFile {
                 pw.println("END");
                 fw.close();
                 pw.close();
-                JOptionPane.showMessageDialog(null, "Dados exportados com êxito!", "Informação.", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Dados exportados com êxito!", "Informação.",
+                        javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
 
         } catch (Exception e) {
