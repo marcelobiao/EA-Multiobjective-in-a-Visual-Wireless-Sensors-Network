@@ -43,35 +43,11 @@ public class TestCanvas {
         int alcance = 300;
 
         Point sectorStart = new Point(200, 150);
+        Point c = new Point(200, 200);
         //Point sectorEnd = new Point(150, 200);
         Point sectorEnd = new Point((int) (sectorStart.x + alcance * Math.sin(angulo)), (int) (sectorStart.y + alcance * Math.sin(angulo)));
         double radiusSquared = 400 * 400 / 8;
         //double radiusSquared = alcance;
-
-        for (int i = 0; i < count; i++) {
-            double x = Math.random() * 400;
-            double y = Math.random() * 400;
-
-            Point p = new Point((int) x, (int) y);
-
-            boolean isInside1 = cas.isInsideSector(p, sectorStart, sectorEnd, radiusSquared);
-
-            if (isInside1 == true) {
-                //System.out.println(isInside);
-                g.setColor(Color.green);
-                countTrue++;
-            } else {
-                g.setColor(Color.red);
-                countFalse++;
-            }
-
-            g.fillOval((int) x, (int) y, 5, 5);
-
-        }
-        System.out.println("IN: " + countTrue + ", OUT: " + countFalse);
-        double mediaT = Math.abs((countTrue * 100) / count);
-        double mediaF = Math.abs((countFalse * 100) / count);
-        System.out.println("Percent IN: " + String.format("%.2f", mediaT) + " %, Percent OUT: " + String.format("%.2f", mediaF) + " %.");
 
         int startX = sectorStart.x;
         int startY = sectorStart.y;
@@ -93,8 +69,33 @@ public class TestCanvas {
         polygonX[2] = (int) endX + (int) deltaX;
         polygonY[2] = (int) endY + (int) deltaY;
 
+        for (int i = 0; i < count; i++) {
+            double x = Math.random() * 400;
+            double y = Math.random() * 400;
+
+            Point p = new Point((int) x, (int) y);
+
+            boolean isInside1 = cas.isInsideSector(p, c,sectorStart, sectorEnd, radiusSquared);
+
+            if (isInside1 == true) {
+                //System.out.println(isInside);
+                g.setColor(Color.green);
+                countTrue++;
+            } else {
+                g.setColor(Color.red);
+                countFalse++;
+            }
+
+            g.fillOval((int) x, (int) y, 5, 5);
+
+        }
+        System.out.println("IN: " + countTrue + ", OUT: " + countFalse);
+        double mediaT = Math.abs((countTrue * 100) / count);
+        double mediaF = Math.abs((countFalse * 100) / count);
+        System.out.println("Percentage IN: " + String.format("%.2f", mediaT) + " %, Percentage OUT: " + String.format("%.2f", mediaF) + " %.");
+
         g.setColor(Color.blue);
-        g.fillOval((int) startX - 5, (int) startY - 5, 10, 10);
+        //g.fillOval((int) startX - 5, (int) startY - 5, 10, 10);
         //g.drawPolygon(polygonX, polygonY, 3);
 
     }

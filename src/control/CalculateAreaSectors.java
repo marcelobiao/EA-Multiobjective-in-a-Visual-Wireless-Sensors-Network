@@ -13,9 +13,9 @@ import java.awt.Point;
  */
 public class CalculateAreaSectors {
 
-    public boolean isInsideSector(Point p, Point sectorStart, Point sectorEnd, double radiusSquared) {
+    public boolean isInsideSector(Point p, Point c, Point sectorStart, Point sectorEnd, double radiusSquared) {
 
-        Point relPoint = new Point(p.x - sectorStart.x, p.y - sectorStart.y);
+        Point relPoint = new Point(p.x - c.x, p.y - c.y);
 
         if (!areClockwise(sectorStart, relPoint) && areClockwise(sectorEnd, relPoint) && isWithinRadius(relPoint, radiusSquared)) {
             return true;

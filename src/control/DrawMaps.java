@@ -88,7 +88,6 @@ public class DrawMaps extends Canvas {
 
         g.setColor(getColor());
         g.fillOval((int) startX - (wdtS / 2), (int) startY - (hgtS / 2), wdtS, hgtS);
-        //g.fillRect((int) startX - (wdt / 2), (int) startY - (hgt / 2), wdt, hgt);
         g.drawPolygon(x, y, 3);
     }
 
